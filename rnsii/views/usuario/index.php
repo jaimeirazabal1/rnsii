@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'nombres',
             'apellidos',
             'cedula',
-            // 'cargo_id',
+            // 'cargo',
             // 'correo',
             // 'tlf',
             // 'username',

@@ -20,8 +20,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'cedula')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'cargo_id')->textInput() ?>
-
     <?= $form->field($model, 'correo')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'tlf')->textInput(['maxlength' => true]) ?>

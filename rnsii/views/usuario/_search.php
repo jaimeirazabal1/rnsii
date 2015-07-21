@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'cedula') ?>
 
-    <?php // echo $form->field($model, 'cargo_id') ?>
+    <?php // echo $form->field($model, 'cargo') ?>
 
     <?php // echo $form->field($model, 'correo') ?>
 

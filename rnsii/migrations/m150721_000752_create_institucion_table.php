@@ -20,7 +20,6 @@ class m150721_000752_create_institucion_table extends Migration
         ]);
         
         $this->addForeignKey('FK_role', 'usuario', 'role_id', 'role', 'id','NO ACTION','NO ACTION');
-        $this->addForeignKey('FK_cargo', 'usuario', 'cargo_id', 'cargo', 'id','NO ACTION','NO ACTION');
         $this->addForeignKey('FK_institucion', 'usuario', 'institucion_id', 'institucion', 'id','NO ACTION','NO ACTION');
     }
 

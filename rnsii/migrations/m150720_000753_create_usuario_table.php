@@ -13,7 +13,7 @@ class m150720_000753_create_usuario_table extends Migration
             'nombres' => Schema::TYPE_STRING . '(60) NOT NULL',
             'apellidos' => Schema::TYPE_STRING . '(60) NOT NULL',
             'cedula' => Schema::TYPE_STRING . '(10) NOT NULL UNIQUE',
-            'cargo_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'cargo' => Schema::TYPE_STRING . ' NOT NULL',
             'correo' => Schema::TYPE_STRING . '(50) NOT NULL UNIQUE',
             'tlf' => Schema::TYPE_STRING . '(10) NOT NULL UNIQUE',
             'username' => Schema::TYPE_STRING . '(60) NOT NULL UNIQUE',
