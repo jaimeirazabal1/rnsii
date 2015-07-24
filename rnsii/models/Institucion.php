@@ -68,4 +68,6 @@ class Institucion extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Usuario::className(), ['institucion_id' => 'id']);
     }
+    
+    
 }

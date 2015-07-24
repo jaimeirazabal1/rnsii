@@ -43,7 +43,7 @@ class Usuario extends \yii\db\ActiveRecord
     {
         return [
             [['institucion_id', 'cargo_id', 'usuario_id_activo', 'role_id'], 'integer'],
-            [['nombres', 'apellidos', 'cedula', 'cargo_id', 'correo', 'tlf', 'username', 'password', 'fecha_registro', 'usuario_id_activo', 'fecha_login'], 'required'],
+            [['nombres', 'apellidos', 'cedula', 'cargo_id', 'correo', 'tlf', 'username', 'password', 'fecha_registro', 'usuario_id_activo', 'fecha_login','institucion_id'], 'required'],
             [['fecha_registro', 'fecha_login'], 'safe'],
             [['nombres', 'apellidos', 'username', 'password'], 'string', 'max' => 60],
             [['cedula', 'tlf'], 'string', 'max' => 10],
@@ -62,7 +62,7 @@ class Usuario extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'institucion_id' => 'Institucion ID',
+            'institucion_id' => 'Institucion',
             'nombres' => 'Nombres',
             'apellidos' => 'Apellidos',
             'cedula' => 'Cedula',
@@ -74,7 +74,7 @@ class Usuario extends \yii\db\ActiveRecord
             'fecha_registro' => 'Fecha Registro',
             'usuario_id_activo' => 'Usuario Id Activo',
             'fecha_login' => 'Fecha Login',
-            'role_id' => 'Role ID',
+            'role_id' => 'Role de Usuario',
         ];
     }
 

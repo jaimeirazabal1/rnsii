@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Usuario;
+use app\models\Institucion;
 use app\models\UsuarioBuscar;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -65,8 +66,10 @@ class UsuarioController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $instituciones = new Institucion();
+            
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model
             ]);
         }
     }

@@ -21,8 +21,22 @@ class m150721_000752_create_institucion_table extends Migration
         
         $this->addForeignKey('FK_role', 'usuario', 'role_id', 'role', 'id','NO ACTION','NO ACTION');
         $this->addForeignKey('FK_institucion', 'usuario', 'institucion_id', 'institucion', 'id','NO ACTION','NO ACTION');
+    
+        $this->insert('institucion',[
+            'nombre_institucion'=>'Institucion 1',
+            'rif_institucion'=>'G12010120',
+            'sigla_institucion'=>'I1',
+            'direccion_institucion'=>'Direccion de la institucion',
+            'tlf_contacto_institucion'=>'0214111111',
+            'nombre_solicitante_institucion'=>'Jaime Irazabal Institucion 1',
+            'correo_institucion'=>'institucion1@institucion1.com',
+            'tlf_institucion'=>'02121111111'
+        ]);
+        
     }
 
+    
+    
     public function down()
     {
         echo "m150721_000752_create_institucion_table cannot be reverted.\n";
