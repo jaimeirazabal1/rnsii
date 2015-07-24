@@ -52,6 +52,11 @@ AppAsset::register($this);
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
+            <?php if(isset($model) and $model->getErrors()): ?>
+                <pre>
+                <?php print_r($model->getErrors()); ?>
+                </pre>
+            <?php endif;?>
             <?= $content ?>
         </div>
     </div>

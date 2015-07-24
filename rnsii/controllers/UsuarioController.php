@@ -60,15 +60,16 @@ class UsuarioController extends Controller
      * @return mixed
      */
     public function actionCreate()
-    {
+    {   
         $model = new Usuario();
-
+        if (Yii::$app->request->post()) {
+            $model->fecha_registro = date("Y-m-d H:i:s");
+                       
+        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            if (!$model->save()) {
-                print_r($model->getErrors());
-            }
+            
             return $this->render('create', [
                 'model' => $model
             ]);

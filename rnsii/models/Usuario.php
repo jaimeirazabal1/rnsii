@@ -42,17 +42,18 @@ class Usuario extends \yii\db\ActiveRecord
     {
         return [
             [['institucion_id', 'usuario_id_activo', 'role_id'], 'integer'],
-            [['nombres', 'apellidos', 'cedula', 'cargo', 'correo', 'tlf', 'username', 'password', 'fecha_registro', 'usuario_id_activo', 'fecha_login','institucion_id','role_id'], 'required','message'=>'Este campo no puede ser vacio'],
+            [['nombres', 'apellidos', 'cedula', 'cargo', 'correo', 'tlf', 'username', 'password', 'fecha_registro','institucion_id','role_id'], 'required','message'=>'Este campo no puede ser vacio'],
             [['fecha_registro', 'fecha_login'], 'safe'],
             [['nombres', 'apellidos', 'username', 'password','cargo'], 'string', 'max' => 60],
-            [['cedula', 'tlf'], 'string', 'max' => 10],
+            [['cedula'], 'string', 'max' => 10],
+            [ 'tlf', 'string', 'max' => 11],
             [['correo'], 'string', 'max' => 50],
             ['correo','email'],
-            [['cedula'], 'unique'],
-            [['correo'], 'unique'],
-            [['tlf'], 'unique'],
+            [['cedula'], 'unique',"message"=>"El numero de cedula ya fue usado"],
+            [['correo'], 'unique',"message"=>"El correo ya fue usado"],
+            [['tlf'], 'unique',"message"=>"El numero de telefono ya fue usado"],
             [['tlf'],'integer','message'=>'El Numero de telefono debe ser numerico'],
-            [['username'], 'unique']
+            [['username'], 'unique',"message"=>"El nombre de usuario ya fue usado"]
         ];
     }
 
@@ -70,15 +71,20 @@ class Usuario extends \yii\db\ActiveRecord
             'cargo' => 'Cargo',
             'correo' => 'Correo',
             'tlf' => 'Tlf',
-            'username' => 'Username',
-            'password' => 'Password',
+            'username' => 'Nombre de Usuario',
+            'password' => 'Contraseña',
             'fecha_registro' => 'Fecha Registro',
             'usuario_id_activo' => 'Usuario Id Activo',
             'fecha_login' => 'Fecha Login',
             'role_id' => 'Role de Usuario',
         ];
     }
-
+    public function setPassword($password){
+        $hash = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+        $this->setAttribute('hash', $hash);
+        $encryptedData = Yii::$app->getSecurity()->encryptByPassword($this->password, $hash);
+        $this->password = $encryptedData;
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
