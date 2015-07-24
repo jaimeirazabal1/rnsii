@@ -66,8 +66,9 @@ class UsuarioController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $instituciones = new Institucion();
-            
+            if (!$model->save()) {
+                print_r($model->getErrors());
+            }
             return $this->render('create', [
                 'model' => $model
             ]);

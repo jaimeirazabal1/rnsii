@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Institucion;
+use app\models\Role;
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
 /* @var $form yii\widgets\ActiveForm */
@@ -32,10 +33,14 @@ use app\models\Institucion;
         <div class="col-md-6">
             
             <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-
             <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
-
-            <?= $form->field($model, 'role_id')->textInput() ?>
+            <?= $form->field($model, 'cargo')->textInput(['maxlength' => true]) ?>
+            <?php 
+            $roles = Role::find()->asArray()->all();    
+            $map_role = ArrayHelper::map($roles, "id", "nombre_role");
+            echo $form->field($model, 'role_id')->dropDownList($map_role,['prompt'=>"Selecciona un Role"]);
+            ?>
+           
         </div>
     </div>
    

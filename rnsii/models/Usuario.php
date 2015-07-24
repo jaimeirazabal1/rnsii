@@ -12,7 +12,7 @@ use Yii;
  * @property string $nombres
  * @property string $apellidos
  * @property string $cedula
- * @property integer $cargo_id
+ * @property string $cargo
  * @property string $correo
  * @property string $tlf
  * @property string $username
@@ -23,7 +23,6 @@ use Yii;
  * @property integer $role_id
  *
  * @property Institucion $institucion
- * @property Cargo $cargo
  * @property Role $role
  */
 class Usuario extends \yii\db\ActiveRecord
@@ -42,15 +41,17 @@ class Usuario extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['institucion_id', 'cargo_id', 'usuario_id_activo', 'role_id'], 'integer'],
-            [['nombres', 'apellidos', 'cedula', 'cargo_id', 'correo', 'tlf', 'username', 'password', 'fecha_registro', 'usuario_id_activo', 'fecha_login','institucion_id'], 'required'],
+            [['institucion_id', 'usuario_id_activo', 'role_id'], 'integer'],
+            [['nombres', 'apellidos', 'cedula', 'cargo', 'correo', 'tlf', 'username', 'password', 'fecha_registro', 'usuario_id_activo', 'fecha_login','institucion_id','role_id'], 'required','message'=>'Este campo no puede ser vacio'],
             [['fecha_registro', 'fecha_login'], 'safe'],
-            [['nombres', 'apellidos', 'username', 'password'], 'string', 'max' => 60],
+            [['nombres', 'apellidos', 'username', 'password','cargo'], 'string', 'max' => 60],
             [['cedula', 'tlf'], 'string', 'max' => 10],
             [['correo'], 'string', 'max' => 50],
+            ['correo','email'],
             [['cedula'], 'unique'],
             [['correo'], 'unique'],
             [['tlf'], 'unique'],
+            [['tlf'],'integer','message'=>'El Numero de telefono debe ser numerico'],
             [['username'], 'unique']
         ];
     }
@@ -66,7 +67,7 @@ class Usuario extends \yii\db\ActiveRecord
             'nombres' => 'Nombres',
             'apellidos' => 'Apellidos',
             'cedula' => 'Cedula',
-            'cargo_id' => 'Cargo ID',
+            'cargo' => 'Cargo',
             'correo' => 'Correo',
             'tlf' => 'Tlf',
             'username' => 'Username',
@@ -86,13 +87,7 @@ class Usuario extends \yii\db\ActiveRecord
         return $this->hasOne(Institucion::className(), ['id' => 'institucion_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCargo()
-    {
-        return $this->hasOne(Cargo::className(), ['id' => 'cargo_id']);
-    }
+    
 
     /**
      * @return \yii\db\ActiveQuery
