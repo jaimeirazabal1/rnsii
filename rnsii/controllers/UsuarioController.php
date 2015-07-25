@@ -49,6 +49,21 @@ class UsuarioController extends Controller
      */
     public function actionView($id)
     {
+        $res = Usuario::find()
+            ->select([
+                'institucion.nombre_institucion',
+                'usuario.nombres',
+                'usuario.apellidos',
+                'usuario.cedula',
+                'usuario.cargo',
+                'usuario.correo',
+                'usuario.id',
+                'role.nombre_role'
+            ])
+            ->innerJoinWith('institucion')
+            ->innerJoinWith("role")
+            ->where(['usuario.id'=>$id])->all();
+    
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -64,7 +79,6 @@ class UsuarioController extends Controller
         $model = new Usuario();
         if (Yii::$app->request->post()) {
             $model->fecha_registro = date("Y-m-d H:i:s");
-                       
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

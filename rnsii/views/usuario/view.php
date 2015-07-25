@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
 
-$this->title = $model->id;
+$this->title = $model->nombres." ".$model->apellidos;
 $this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'institucion_id',
+            'institucion.nombre_institucion',
             'nombres',
             'apellidos',
             'cedula',
@@ -41,8 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'fecha_registro',
             'usuario_id_activo',
             'fecha_login',
-            'role_id',
+            'role.nombre_role',
         ],
     ]) ?>
 
 </div>
+

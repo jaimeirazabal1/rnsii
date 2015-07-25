@@ -79,11 +79,18 @@ class Usuario extends \yii\db\ActiveRecord
             'role_id' => 'Role de Usuario',
         ];
     }
-    public function setPassword($password){
-        $hash = Yii::$app->getSecurity()->generatePasswordHash($this->password);
-        $this->setAttribute('hash', $hash);
-        $encryptedData = Yii::$app->getSecurity()->encryptByPassword($this->password, $hash);
-        $this->password = $encryptedData;
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            // Place your custom code here
+            $hash = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+            $this->setAttribute('hash', $hash);
+            $encryptedData = Yii::$app->getSecurity()->encryptByPassword($this->password, $hash);
+            $this->setAttribute("password", $encryptedData);
+            return true;
+        } else {
+            return false;
+        }
     }
     /**
      * @return \yii\db\ActiveQuery
