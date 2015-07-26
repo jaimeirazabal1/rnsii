@@ -32,6 +32,16 @@ class m150721_000752_create_institucion_table extends Migration
             'correo_institucion'=>'institucion1@institucion1.com',
             'tlf_institucion'=>'02121111111'
         ]);
+        $this->insert('institucion',[
+            'nombre_institucion'=>'Institucion 2',
+            'rif_institucion'=>'G12010111',
+            'sigla_institucion'=>'I2',
+            'direccion_institucion'=>'Direccion de la institucion 2',
+            'tlf_contacto_institucion'=>'0214111112',
+            'nombre_solicitante_institucion'=>'Jaime Irazabal Institucion 2',
+            'correo_institucion'=>'institucion2@institucion2.com',
+            'tlf_institucion'=>'02121111112'
+        ]);
         
     }
 

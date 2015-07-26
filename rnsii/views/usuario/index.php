@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UsuarioBuscar */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,14 +18,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Nuevo Usuario', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
+    <?php Pjax::begin() ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'institucion.nombre_institucion',
+            [
+                'attribute'=>'institucion_id',
+                'value'=>'institucion.nombre_institucion'
+            ],
+            
             'nombres',
             'apellidos',
             'cedula',
@@ -38,9 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'usuario_id_activo',
             // 'fecha_login',
             // 'role_id',
-
+            ['attribute'=>'role_id','value'=>'role.nombre_role'],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
+    <?php Pjax::end() ?>
 </div>
