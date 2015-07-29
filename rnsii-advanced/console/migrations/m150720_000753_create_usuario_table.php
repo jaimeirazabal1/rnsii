@@ -19,6 +19,7 @@ class m150720_000753_create_usuario_table extends Migration
             'username' => Schema::TYPE_STRING . '(60) NOT NULL UNIQUE',
             'password' => Schema::TYPE_STRING . '(255) NOT NULL ',
             'access_token'=>Schema::TYPE_STRING.'(255)',
+            'auth_key'=>Schema::TYPE_STRING.'(255)',
             'fecha_registro' => Schema::TYPE_DATETIME. ' NOT NULL',
             'usuario_id_activo' => Schema::TYPE_INTEGER. " NULL",
             'fecha_login' => Schema::TYPE_TIMESTAMP. ' DEFAULT CURRENT_TIMESTAMP',
