@@ -3,8 +3,7 @@
 namespace app\models;
 
 use Yii;
-use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
+
 /**
  * This is the model class for table "usuario".
  *
@@ -19,6 +18,7 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $password
  * @property string $access_token
+ * @property string $auth_key
  * @property string $fecha_registro
  * @property integer $usuario_id_activo
  * @property string $fecha_login
@@ -38,8 +38,7 @@ use yii\web\IdentityInterface;
  * @property UsuarioValidado[] $usuarioValidados
  * @property UsuarioValidado[] $usuarioValidados0
  */
-class Usuario extends ActiveRecord implements IdentityInterface
-
+class Usuario extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -55,12 +54,12 @@ class Usuario extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['institucion_id', 'nombres', 'apellidos', 'cedula', 'cargo', 'correo', 'tlf', 'username', 'password', 'access_token', 'fecha_registro', 'role_id'], 'required'],
+            [['institucion_id', 'nombres', 'apellidos', 'cedula', 'cargo', 'correo', 'tlf', 'username', 'password', 'access_token', 'auth_key', 'fecha_registro', 'role_id'], 'required'],
             [['institucion_id', 'usuario_id_activo', 'role_id'], 'integer'],
             [['fecha_registro', 'fecha_login'], 'safe'],
             [['nombres', 'apellidos', 'username'], 'string', 'max' => 60],
             [['cedula'], 'string', 'max' => 10],
-            [['cargo', 'password', 'access_token'], 'string', 'max' => 255],
+            [['cargo', 'password', 'access_token', 'auth_key'], 'string', 'max' => 255],
             [['correo'], 'string', 'max' => 50],
             [['tlf'], 'string', 'max' => 11],
             [['cedula'], 'unique'],
@@ -87,6 +86,7 @@ class Usuario extends ActiveRecord implements IdentityInterface
             'username' => 'Username',
             'password' => 'Password',
             'access_token' => 'Access Token',
+            'auth_key' => 'Auth Key',
             'fecha_registro' => 'Fecha Registro',
             'usuario_id_activo' => 'Usuario Id Activo',
             'fecha_login' => 'Fecha Login',
@@ -196,29 +196,5 @@ class Usuario extends ActiveRecord implements IdentityInterface
     public function getUsuarioValidados0()
     {
         return $this->hasMany(UsuarioValidado::className(), ['usuario_id' => 'id']);
-    }
-    public static function findIdentity($id)
-    {
-        return static::findOne($id);
-    }
-
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        return static::findOne(['access_token' => $token]);
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
-
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
     }
 }
