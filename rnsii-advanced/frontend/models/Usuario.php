@@ -3,7 +3,11 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
+use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
 /**
  * This is the model class for table "usuario".
  *
@@ -38,8 +42,10 @@ use Yii;
  * @property UsuarioValidado[] $usuarioValidados
  * @property UsuarioValidado[] $usuarioValidados0
  */
-class Usuario extends \yii\db\ActiveRecord
-{
+class Usuario extends ActiveRecord implements IdentityInterface
+{   
+    // holds the password confirmation word
+    public $repeat_password;
     /**
      * @inheritdoc
      */
@@ -54,7 +60,7 @@ class Usuario extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['institucion_id', 'nombres', 'apellidos', 'cedula', 'cargo', 'correo', 'tlf', 'username', 'password', 'access_token', 'auth_key', 'fecha_registro', 'role_id'], 'required'],
+            [['institucion_id', 'nombres', 'apellidos', 'cedula', 'cargo', 'correo', 'tlf', 'username', 'password', 'access_token', 'auth_key', 'fecha_registro', 'role_id','repeat_password'], 'required','message'=>'Este Campo no puede ser nulo'],
             [['institucion_id', 'usuario_id_activo', 'role_id'], 'integer'],
             [['fecha_registro', 'fecha_login'], 'safe'],
             [['nombres', 'apellidos', 'username'], 'string', 'max' => 60],
@@ -62,10 +68,12 @@ class Usuario extends \yii\db\ActiveRecord
             [['cargo', 'password', 'access_token', 'auth_key'], 'string', 'max' => 255],
             [['correo'], 'string', 'max' => 50],
             [['tlf'], 'string', 'max' => 11],
-            [['cedula'], 'unique'],
-            [['correo'], 'unique'],
-            [['tlf'], 'unique'],
-            [['username'], 'unique']
+            [['cedula'], 'unique',"message"=>"El número de cédula ya fue usado"],
+            [['correo'], 'unique',"message"=>"El correo de cédula ya fue usado"],
+            [['tlf'], 'unique',"message"=>"El número de teléfono ya fue usado"],
+            [['username'], 'unique','message'=>'El nombre de usuario ya fue usado'],
+            ['repeat_password', 'compare', 'compareAttribute'=>'password','message'=>"La contraseña debe coincidir exactamente"],
+            ['password, repeat_password', 'required', 'on'=>'insert'],
         ];
     }
 
@@ -76,21 +84,22 @@ class Usuario extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'institucion_id' => 'Institucion ID',
+            'institucion_id' => 'Institución',
             'nombres' => 'Nombres',
             'apellidos' => 'Apellidos',
             'cedula' => 'Cedula',
             'cargo' => 'Cargo',
             'correo' => 'Correo',
-            'tlf' => 'Tlf',
-            'username' => 'Username',
-            'password' => 'Password',
+            'tlf' => 'Teléfono',
+            'username' => 'Nombre de Usuario',
+            'password' => 'Contraseña',
             'access_token' => 'Access Token',
             'auth_key' => 'Auth Key',
             'fecha_registro' => 'Fecha Registro',
             'usuario_id_activo' => 'Usuario Id Activo',
             'fecha_login' => 'Fecha Login',
-            'role_id' => 'Role ID',
+            'role_id' => 'Role de Usuario',
+            'repeat_password'=>'Verificar'
         ];
     }
 
@@ -214,11 +223,49 @@ class Usuario extends \yii\db\ActiveRecord
 
     public function getAuthKey()
     {
-        return $this->authKey;
+        return $this->auth_key;
     }
 
     public function validateAuthKey($authKey)
     {
-        return $this->authKey === $authKey;
+        return $this->auth_key === $authKey;
+    }
+    public function setPassword($password)
+    {
+        $this->password = Yii::$app->security->generatePasswordHash($password);
+    }
+    /**
+     * Validates password
+     *z
+     * @param string $password password to validate
+     * @return boolean if password provided is valid for current user
+     */
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password);
+    }
+    /**
+     * Generates "remember me" authentication key
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+    /**
+     * Generates "remember me" authentication key
+     */
+    public function generateAccessToken()
+    {
+        $this->access_token = Yii::$app->security->generateRandomString(50);
+    }
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            // Place your custom code here
+            $this->setPassword($this->password);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
