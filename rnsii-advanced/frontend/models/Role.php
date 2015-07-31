@@ -54,4 +54,7 @@ class Role extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Usuario::className(), ['role_id' => 'id']);
     }
+    public function getNombreRole(){
+        return $this->nombre_role;
+    }
 }

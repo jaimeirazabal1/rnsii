@@ -268,4 +268,14 @@ class Usuario extends ActiveRecord implements IdentityInterface
             return false;
         }
     }
+    /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        return static::findOne(['username' => $username]);
+    }
 }

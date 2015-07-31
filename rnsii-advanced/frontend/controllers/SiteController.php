@@ -73,12 +73,21 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
+            
             return $this->goHome();
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            if(Yii::$app->user->identity->role->getNombreRole() == "ADMIN"){
+                $parametros = [
+                   'title'=>"Paǵina para el ".Yii::$app->user->identity->role->getNombreRole()
+                ];
+                return $this->render('dash', [
+                    'parametros' => $parametros,
+                ]);   
+            }
+           
         } else {
             return $this->render('login', [
                 'model' => $model,
