@@ -1,8 +1,11 @@
 <?php
-use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
-$this->title = 'Registro de Usuario';
+use yii\helpers\Html;
+?>
+<h1>Editar Usuario</h1>
+<?php
+$this->title = "Editar Usuario";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php
@@ -46,14 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <?= $form->field($model, 'password')->passwordInput(['placeholder'=>'Contraseña']) ?>
-                </div>
-                <div class="col-md-6">
-                    <?= $form->field($model, 'repeat_password')->passwordInput(['placeholder'=>'Verificar Contraseña']) ?>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-12">
                     <?= $form->field($model, 'role_id')->DropDownList(ArrayHelper::map(\app\models\Role::find()->all(), 'id', 'nombre_role' ),[ 'prompt' => 'Seleccione un rol de usuario' ]) ?>
                 </div>
@@ -63,9 +58,9 @@ $this->params['breadcrumbs'][] = $this->title;
         
     </div>
      
-        
         <div class="form-group">
             <?= Html::submitButton('Registrar', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+            <?php echo  HTML::a('Cambiar Contraseña',['usuario/cambiarpassword', 'id' => $model->attributes['id']],['class'=>'btn btn-default']); ?>
         </div>
     <?php ActiveForm::end(); ?>
 </div>

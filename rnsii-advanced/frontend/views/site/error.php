@@ -7,21 +7,21 @@ use yii\helpers\Html;
 /* @var $message string */
 /* @var $exception Exception */
 
-$this->title = $name;
+$this->title = 'Se produjo un error con código ' . $exception->statusCode;
 ?>
 <div class="site-error">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode('Se produjo un error con código ' . $exception->statusCode) ?></h1>
 
     <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
+        <?= nl2br(Html::encode( 'Se produjo un error con código ' . $exception->statusCode)) ?>
     </div>
 
     <p>
-        The above error occurred while the Web server was processing your request.
+        Se ha producido un error, mientras que el servidor Web estaba procesando su solicitud.
     </p>
     <p>
-        Please contact us if you think this is a server error. Thank you.
+        Póngase en contacto con nosotros si usted piensa que esto es un error en el servidor. Gracias.
     </p>
 
 </div>

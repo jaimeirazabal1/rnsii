@@ -278,4 +278,5 @@ class Usuario extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['username' => $username]);
     }
+    
 }
